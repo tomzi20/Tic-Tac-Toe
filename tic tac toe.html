@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+      body {
+        font-size: 20px;
+        font-family: Verdana;
+      }
+
+      #table {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #center {
+        text-align: center;
+      }
+
+      td {
+        border: solid 2px black;
+      }
+
+      td {
+        width: 30px;
+        height: 36px;
+        text-align: center;
+      }
+
+      button:hover {
+        background: blue;
+      }
+
+      #choosefirst,
+      #choosesecond {
+        visibility: hidden;
+        color: red;
+      }
+
+    </style>
+
+    <title>Game tic-tac-toe</title>
+
+  </head>
+
+  <body>
+    <div id="center">
+
+      <h1 id="title">Game tic-tac-toe</h1>
+
+      <div>Please choose if you want be first:</div>
+
+      <button id="first" name="first" value="first">
+        Press this button to start first
+      </button>
+
+      <button id="second" name="second" value="second">
+        Press this button to start second
+      </button>
+
+      <div id="choosefirst">You have circle. Please start game!</div>
+
+      <div id="choosesecond">You have circle. Computer started first!</div>
+
+      <table id="table">
+        <tr id="tr1">
+          <td id="td1"></td>
+          <td id="td2"></td>
+          <td id="td3"></td>
+        </tr>
+        <tr id="tr2">
+          <td id="td4"></td>
+          <td id="td5"></td>
+          <td id="td6"></td>
+        </tr>
+        <tr id="tr3">
+          <td id="td7"></td>
+          <td id="td8"></td>
+          <td id="td9"></td>
+        </tr>
+      </table>
+
+      <div id="result"></div>
+      <div>(you : computer)</div>
+
+      <button id="clear" name="clear" value="clear">
+        Clear (to start game once again)
+      </button>
+
+    </div>
+
+    <script>
+      let you = 0;
+      let computer = 0;
+      result.innerHTML = "Result: " + you + ":" + computer;
+
+      /* functions to show who first / second */
+      function showFirst() {
+        choosefirst.style.visibility = "visible";
+        choosesecond.style.visibility = "hidden";
+      }
+
+      function showSecond() {
+        choosesecond.style.visibility = "visible";
+        choosefirst.style.visibility = "hidden";
+      }
+
+      /* function to clear table */
+      function clearTable() {
+        let td = document.getElementsByTagName("td");
+        for (i = 0; i < td.length; i++) {
+          td[i].innerHTML = "";
+          td[i].style.background = "#FFFFFF";
+        }
+      }
+
+      /* function to click by user */
+      function clickByUser(event) {
+        let target = event.target;
+        if (target.tagName != "TD") return;
+        if (
+          target.innerHTML == "X" ||
+          target.innerHTML == "O") {
+          return;
+        } else {
+        target.style.background = "#00FF00";
+        target.innerHTML = "O";
+        setTimeout(checkIfWinCircle, 10);
+        }
+      }
+
+     
+      /* functions to click by computer */
+      function nowComputer() {
+        let arr = [];
+        if (td5.innerHTML != "O" && td5.innerHTML != "X") {
+          clickByComputer(td5);
+          return;
+        } else {
+          let tdSet = document.getElementsByTagName("td");
+          for (let j = 0; j < 9; j++) {
+            if (tdSet[j].innerHTML != "O" && tdSet[j].innerHTML != "X") {
+              arr.push(tdSet[j]);
+            }
+          }
+          k = Math.floor(Math.random() * arr.length);
+          clickByComputer(arr[k]);
+        }
+      }
+
+      function clickByComputer(tdTarget) {
+        tdTarget.style.background = "#FF0000";
+        tdTarget.innerHTML = "X";
+        setTimeout(checkIfWinCross, 10);
+      }
+
+      /* function to check if wind circles */
+      function checkIfWinCircle() {
+        let win = false;
+        if (
+          td1.innerHTML == td2.innerHTML &&
+          td2.innerHTML == td3.innerHTML &&
+          td3.innerHTML == "O"
+        )
+          win = true;
+        if (
+          td4.innerHTML == td5.innerHTML &&
+          td5.innerHTML == td6.innerHTML &&
+          td6.innerHTML == "O"
+        )
+          win = true;
+        if (
+          td7.innerHTML == td8.innerHTML &&
+          td8.innerHTML == td9.innerHTML &&
+          td9.innerHTML == "O"
+        )
+          win = true;
+        if (
+          td1.innerHTML == td4.innerHTML &&
+          td4.innerHTML == td7.innerHTML &&
+          td7.innerHTML == "O"
+        )
+          win = true;
+        if (
+          td2.innerHTML == td5.innerHTML &&
+          td5.innerHTML == td8.innerHTML &&
+          td8.innerHTML == "O"
+        )
+          win = true;
+        if (
+          td3.innerHTML == td6.innerHTML &&
+          td6.innerHTML == td9.innerHTML &&
+          td9.innerHTML == "O"
+        )
+          win = true;
+        if (
+          td1.innerHTML == td5.innerHTML &&
+          td5.innerHTML == td9.innerHTML &&
+          td9.innerHTML == "O"
+        )
+          win = true;
+        if (
+          td3.innerHTML == td5.innerHTML &&
+          td5.innerHTML == td7.innerHTML &&
+          td7.innerHTML == "O"
+        )
+          win = true;
+        if (win == true) {
+          alert("You won!");
+          you += 1;
+          result.innerHTML =
+            "Result " + you + ":" + computer;
+          clearTable();
+        } else {
+          setTimeout(nowComputer, 10);
+        }
+      }
+
+      /* function to check if wind crosses */
+      function checkIfWinCross() {
+        let win = false;
+        if (
+          td1.innerHTML == td2.innerHTML &&
+          td2.innerHTML == td3.innerHTML &&
+          td3.innerHTML == "X"
+        )
+          win = true;
+        if (
+          td4.innerHTML == td5.innerHTML &&
+          td5.innerHTML == td6.innerHTML &&
+          td6.innerHTML == "X"
+        )
+          win = true;
+        if (
+          td7.innerHTML == td8.innerHTML &&
+          td8.innerHTML == td9.innerHTML &&
+          td9.innerHTML == "X"
+        )
+          win = true;
+        if (
+          td1.innerHTML == td4.innerHTML &&
+          td4.innerHTML == td7.innerHTML &&
+          td7.innerHTML == "X"
+        )
+          win = true;
+        if (
+          td2.innerHTML == td5.innerHTML &&
+          td5.innerHTML == td8.innerHTML &&
+          td8.innerHTML == "X"
+        )
+          win = true;
+        if (
+          td3.innerHTML == td6.innerHTML &&
+          td6.innerHTML == td9.innerHTML &&
+          td9.innerHTML == "X"
+        )
+          win = true;
+        if (
+          td1.innerHTML == td5.innerHTML &&
+          td5.innerHTML == td9.innerHTML &&
+          td9.innerHTML == "X"
+        )
+          win = true;
+        if (
+          td3.innerHTML == td5.innerHTML &&
+          td5.innerHTML == td7.innerHTML &&
+          td7.innerHTML == "X"
+        )
+          win = true;
+        if (win == true) {
+          alert("Computer won!");
+          computer += 1;
+          result.innerHTML =
+            "Result " + you + ":" + computer;
+          clearTable();
+        }
+      }
+
+
+      /* events */
+      first.addEventListener("click", showFirst);
+      second.addEventListener("click", showSecond);
+      clear.addEventListener("click", clearTable);
+      table.addEventListener("click", clickByUser);
+      second.addEventListener("click", nowComputer);
+
+    </script>
+  </body>
+</html>
